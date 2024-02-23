@@ -3,7 +3,7 @@ terraform {
     organization = "siteofquan"
 
     workspaces {
-      name = "siteofquan"
+      name = "siteofquan-prod"
     }
   }
   required_providers {
@@ -17,6 +17,7 @@ provider "aws" {
   region = "ap-southeast-1"
   default_tags {
     tags = {
+      env = "prod"
       awsApplication = "arn:aws:resource-groups:ap-southeast-1:566958912930:group/siteofquan/0d7lh0ti9yel17gf98qtlpw2tw"
     }
   }
