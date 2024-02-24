@@ -43,19 +43,3 @@ resource "aws_s3_bucket_website_configuration" "siteofquan-FE-s3_staticweb" {
     key = "error.html"
   }
 }
-
-resource "aws_s3_object" "FE_index_file" {
-  bucket       = aws_s3_bucket.siteofquan-FE-s3.bucket
-  key          = "index.html"
-  content      = "Hello world!"
-  content_type = "text/html"
-
-}
-
-resource "aws_s3_object" "FE_error_file" {
-  bucket       = aws_s3_bucket.siteofquan-FE-s3.bucket
-  key          = "error.html"
-  content      = "something's wrong!"
-  content_type = "text/html"
-
-}
