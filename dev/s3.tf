@@ -26,13 +26,6 @@ resource "aws_s3_bucket_policy" "siteofquan-FE-s3_bucket_policy" {
 }
 
 
-resource "aws_s3_bucket_versioning" "siteofquan-FE-s3_versioning" {
-  bucket = aws_s3_bucket.siteofquan-FE-s3.id
-  versioning_configuration {
-    status = "Enabled"
-  }
-}
-
 resource "aws_s3_bucket_website_configuration" "siteofquan-FE-s3_staticweb" {
   bucket = aws_s3_bucket.siteofquan-FE-s3.id
   index_document {
