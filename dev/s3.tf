@@ -36,3 +36,47 @@ resource "aws_s3_bucket_website_configuration" "siteofquan-FE-s3_staticweb" {
     key = "error.html"
   }
 }
+
+
+resource "aws_s3_bucket" "siteofquan-BE-s3" {
+  bucket = var.backend_bucket_name
+
+  tags = {
+    Name = "BE bucket"
+  }
+
+}
+
+resource "aws_s3_bucket_policy" "siteofquan-BE-s3_bucket_policy" {
+  bucket = aws_s3_bucket.siteofquan-BE-s3.id
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Principal = {
+          Service = "lambda.amazonaws.com"
+        },
+        Action   = "s3:GetObject",
+        Resource = "${aws_s3_bucket.siteofquan-BE-s3.arn}/*"
+      }
+    ]
+  })
+}
+
+data "http" "lambda_function_source" {
+  url = var.lambda_init_source_url
+}
+
+resource "archive_file" "lambda_function_source_zip" {
+  type = "zip"
+  source_content = data.http.lambda_function_source.response_body
+  source_content_filename = var.lambda_source_zip
+  output_path = var.lambda_source_zip
+}
+resource "aws_s3_object" "siteofquan-BE-s3-object" {
+  bucket = aws_s3_bucket.siteofquan-BE-s3.bucket
+  key = var.lambda_source_zip
+  source = archive_file.lambda_function_source_zip.output_path
+}
