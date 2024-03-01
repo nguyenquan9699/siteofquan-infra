@@ -1,4 +1,4 @@
-resource "aws_lambda_function" "name" {
+resource "aws_lambda_function" "siteofquan-BE-lambda" {
   function_name = var.lambda_name
   role = aws_iam_role.lambda_exec.arn
   runtime = var.lambda_runtime
