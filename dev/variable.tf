@@ -25,35 +25,35 @@ variable "route53_ttl" {
 }
 
 variable "dynamoDB_table" {
-  type = string
+  type    = string
   default = "siteofquan"
 }
 
 variable "lambda_name" {
-  type = string
-  default = "siteofquan-data-loader"
+  type    = string
+  default = "siteofquan-data-loader-dev"
 }
 
 variable "lambda_entry" {
-  type = string
+  type    = string
   default = "lambda_function.lambda_handler"
 }
 
 variable "lambda_source" {
-  type = string
+  type    = string
   default = "lambda_function.py"
 }
 
 variable "lambda_source_zip" {
-  type = string
+  type    = string
   default = "lambda_function.zip"
 }
 variable "lambda_runtime" {
-  type = string
+  type    = string
   default = "python3.10"
 }
 
 variable "lambda_init_source_url" {
-  type = string
+  type    = string
   default = "https://raw.githubusercontent.com/nguyenquan9699/siteofquan-BE/main/lambda_function.py"
 }

@@ -64,19 +64,20 @@ resource "aws_s3_bucket_policy" "siteofquan-BE-s3_bucket_policy" {
     ]
   })
 }
-
-data "http" "lambda_function_source" {
+data "http" "lambda_source_url" {
   url = var.lambda_init_source_url
 }
 
-resource "archive_file" "lambda_function_source_zip" {
-  type = "zip"
-  source_content = data.http.lambda_function_source.response_body
-  source_content_filename = var.lambda_source_zip
-  output_path = var.lambda_source_zip
+data "archive_file" "archive_source" {
+  type                    = "zip"
+  source_content          = data.http.lambda_source_url.response_body
+  source_content_filename = var.lambda_source
+  output_path             = var.lambda_source_zip
+
+  depends_on = [data.http.lambda_source_url]
 }
 resource "aws_s3_object" "siteofquan-BE-s3-object" {
   bucket = aws_s3_bucket.siteofquan-BE-s3.bucket
-  key = var.lambda_source_zip
-  source = archive_file.lambda_function_source_zip.output_path
+  key    = var.lambda_source_zip
+  source = data.archive_file.archive_source.output_path
 }

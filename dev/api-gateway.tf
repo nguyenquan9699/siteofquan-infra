@@ -1,12 +1,15 @@
 resource "aws_apigatewayv2_api" "lambda" {
   name          = "serverless_lambda_gw"
   protocol_type = "HTTP"
+  cors_configuration {
+
+  }
 }
 
 resource "aws_apigatewayv2_stage" "lambda" {
   api_id = aws_apigatewayv2_api.lambda.id
 
-  name        = "serverless_lambda_stage"
+  name        = "v1"
   auto_deploy = true
 
   access_log_settings {
@@ -39,14 +42,14 @@ resource "aws_apigatewayv2_integration" "siteofquan-gw-integration" {
 resource "aws_apigatewayv2_route" "siteofquan-gw-route" {
   api_id = aws_apigatewayv2_api.lambda.id
 
-  route_key = "GET /"
+  route_key = "$default"
   target    = "integrations/${aws_apigatewayv2_integration.siteofquan-gw-integration.id}"
 }
 
 resource "aws_cloudwatch_log_group" "api_gw" {
   name = "/aws/api_gw/${aws_apigatewayv2_api.lambda.name}"
 
-  retention_in_days = 30
+  retention_in_days = 7
 }
 
 resource "aws_lambda_permission" "api_gw" {
